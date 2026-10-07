@@ -336,8 +336,6 @@
     border: 1px solid var(--line);
     border-radius: 16px;
     padding: 14px;
-    content-visibility: auto;
-    contain-intrinsic-size: 200px;
   }
   .identity-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
   .identity-avatar {
@@ -433,6 +431,8 @@
     width: 100%; max-width: 480px;
     padding: 20px 22px calc(24px + var(--safe-bottom));
     animation: sheetUp 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+    max-height: 90vh;
+    overflow-y: auto;
   }
   @media (min-width: 500px) {
     .modal { border-radius: 20px; padding: 26px 24px; }
@@ -464,6 +464,73 @@
   .modal-input:focus { border-color: var(--white); }
   .modal-actions { display: flex; gap: 10px; }
   .modal-actions .btn { flex: 1; padding: 15px; }
+
+  /* ========== PRESET CREDENTIALS ========== */
+  .preset-section {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 18px;
+  }
+  .preset-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-3);
+    padding: 2px 4px 8px;
+  }
+  .preset-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    margin-bottom: 6px;
+  }
+  .preset-field:last-child { margin-bottom: 0; }
+  .preset-info { flex: 1; min-width: 0; text-align: left; }
+  .preset-key {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 3px;
+  }
+  .preset-val {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    word-break: break-all;
+    line-height: 1.25;
+  }
+  .preset-val.mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+  }
+  .preset-copy {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    color: var(--text-2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .preset-copy svg { width: 13px; height: 13px; stroke-width: 2.2; }
+  .preset-copy:hover { background: var(--white); color: #000; border-color: var(--white); }
+  .preset-copy:active { transform: scale(0.9); }
+  .preset-copy.copied { background: var(--green); border-color: var(--green); color: #fff; }
 
   /* ========== EXPORT GRID ========== */
   .export-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
@@ -694,7 +761,7 @@
   </div>
 </div>
 
-<!-- SAVE MODAL -->
+<!-- ==================== SAVE MODAL ==================== -->
 <div class="modal-overlay" id="saveModal">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -703,6 +770,32 @@
     </div>
     <div class="modal-title">Add Email</div>
     <p class="modal-desc">Attach an email to <strong id="saveModalName">—</strong></p>
+
+    <!-- PRESET CREDENTIALS -->
+    <div class="preset-section">
+      <div class="preset-label">Preset Credentials</div>
+
+      <div class="preset-field">
+        <div class="preset-info">
+          <div class="preset-key">Email</div>
+          <div class="preset-val" id="presetEmail">hurairaislam0086@gmail.com</div>
+        </div>
+        <button class="preset-copy" onclick="copyPreset('presetEmail', this)" title="Copy Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+
+      <div class="preset-field">
+        <div class="preset-info">
+          <div class="preset-key">Password</div>
+          <div class="preset-val mono" id="presetPassword">rayhan000</div>
+        </div>
+        <button class="preset-copy" onclick="copyPreset('presetPassword', this)" title="Copy Password">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+    </div>
+
     <label class="input-label">Email Address</label>
     <input type="email" class="modal-input" id="emailInput" placeholder="you@example.com" autocomplete="off">
     <div class="modal-actions">
@@ -712,7 +805,7 @@
   </div>
 </div>
 
-<!-- EXPORT MODAL -->
+<!-- ==================== EXPORT MODAL ==================== -->
 <div class="modal-overlay" id="exportModal">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -756,6 +849,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 import { getFirestore, collection, addDoc, deleteDoc, doc, query, where, onSnapshot, updateDoc, writeBatch }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+// ============ FIREBASE CONFIG ============
 const firebaseConfig = {
   apiKey: "AIzaSyCYE6X1DsWwD6e-k0wxCRF8jg359__loKA",
   authDomain: "keyforge-57bc9.firebaseapp.com",
@@ -770,6 +864,10 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
+// ============ PRESET CREDENTIALS ============
+const PRESET_EMAIL = 'hurairaislam0086@gmail.com';
+const PRESET_PASSWORD = 'rayhan000';
+
 // ============ STATE ============
 let currentUser = null;
 let savedIdentities = [];
@@ -777,18 +875,18 @@ let currentGender = 'male';
 let unsubscribeSnapshot = null;
 let authMode = 'signin';
 let searchDebounce = null;
-let isFirstLoad = true;
+let renderCache = '';
 
-// Globals
+// Expose globals
 Object.assign(window, {
   switchAuthTab, handleAuth, handleLogout, handleGoogleSignIn,
-  generateAll, updateSlider, copyField, copyMini,
+  generateAll, updateSlider, copyField, copyMini, copyPreset,
   openSaveModal, closeSaveModal, saveIdentity,
   deleteIdentity, editEmail, updateEmail, clearAll,
   openExportModal, closeExportModal, exportAs
 });
 
-// ============ NAME DATA (compressed) ============
+// ============ NAME DATA ============
 const names = {
   western: {
     male: { first: "James,Oliver,Liam,Noah,Ethan,Lucas,Mason,Logan,Henry,Jack,Daniel,Michael,William".split(','), last: "Smith,Johnson,Williams,Brown,Jones,Miller,Davis,Wilson,Anderson,Taylor".split(',') },
@@ -807,8 +905,8 @@ const names = {
     female: { first: "Fatima,Aisha,Layla,Zainab,Maryam,Noor,Amira,Sara,Hana,Yasmin,Rania,Dalia,Salma".split(','), last: "Al-Rashid,Al-Farsi,Al-Sayed,Al-Amin,Al-Hassan,Al-Khalid,Al-Nasser,Al-Mansour".split(',') }
   },
   japanese: {
-    male: { first: "Haruto,Yuto,Sota,Yuki,Hayato,Ren,Kaito,Riku,Sora,Daiki,Takumi,Kenta,Hiroshi".split(','), last: "Sato,Suzuki,Takahashi,Tanaka,Watanabe,Ito,Yamamoto,Nakamura,Kobayashi,Kato".split(',') }
-    ,female: { first: "Yui,Sakura,Hina,Aoi,Rin,Miu,Yuna,Akari,Honoka,Mio,Hana,Mei,Saki".split(','), last: "Sato,Suzuki,Takahashi,Tanaka,Watanabe,Ito,Yamamoto,Nakamura,Kobayashi,Kato".split(',') }
+    male: { first: "Haruto,Yuto,Sota,Yuki,Hayato,Ren,Kaito,Riku,Sora,Daiki,Takumi,Kenta,Hiroshi".split(','), last: "Sato,Suzuki,Takahashi,Tanaka,Watanabe,Ito,Yamamoto,Nakamura,Kobayashi,Kato".split(',') },
+    female: { first: "Yui,Sakura,Hina,Aoi,Rin,Miu,Yuna,Akari,Honoka,Mio,Hana,Mei,Saki".split(','), last: "Sato,Suzuki,Takahashi,Tanaka,Watanabe,Ito,Yamamoto,Nakamura,Kobayashi,Kato".split(',') }
   }
 };
 
@@ -907,7 +1005,6 @@ onAuthStateChanged(auth, (user) => {
     document.getElementById('authSubmit').disabled = false;
     document.getElementById('authBtnText').textContent = authMode === 'signin' ? 'Sign In' : 'Create Account';
 
-    isFirstLoad = true;
     showSkeleton();
     subscribeToIdentities();
     generateAll();
@@ -936,14 +1033,11 @@ function subscribeToIdentities() {
   const q = query(collection(db, 'identities'), where('userId', '==', currentUser.uid));
 
   unsubscribeSnapshot = onSnapshot(q,
-    { includeMetadataChanges: false },
     (snapshot) => {
-      // Only sort when changes happen
       const docs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-      docs.sort((a, b) => (b.savedAt > a.savedAt ? 1 : -1));
+      docs.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
       savedIdentities = docs;
       setSyncStatus('synced');
-      isFirstLoad = false;
       renderSaved();
     },
     (err) => {
@@ -988,13 +1082,12 @@ function generateAll() {
   const last = pick(pool.last);
   const pw = generatePassword(parseInt(document.getElementById('pwLength').value));
 
-  // Direct set — no animation delay for speed
   document.getElementById('firstName').textContent = first;
   document.getElementById('lastName').textContent = last;
   document.getElementById('password').textContent = pw;
 }
 
-// ============ COPY (fast, no animation) ============
+// ============ COPY ============
 function copyText(text, btn) {
   const done = () => {
     if (btn) {
@@ -1024,6 +1117,10 @@ function copyField(id, btn) {
   copyText(t, btn);
 }
 function copyMini(text, btn) { copyText(text, btn); }
+function copyPreset(id, btn) {
+  const t = document.getElementById(id).textContent;
+  copyText(t, btn);
+}
 
 // ============ SAVE ============
 function openSaveModal() {
@@ -1031,10 +1128,12 @@ function openSaveModal() {
   if (first === '— — —') return showToast('Generate first');
   const last = document.getElementById('lastName').textContent;
   document.getElementById('saveModalName').textContent = `${first} ${last}`;
-  document.getElementById('emailInput').value = '';
+
+  // Auto-fill preset email
+  document.getElementById('emailInput').value = PRESET_EMAIL;
+
   document.getElementById('saveModal').classList.add('active');
   document.getElementById('saveModalBtn').onclick = saveIdentity;
-  setTimeout(() => document.getElementById('emailInput').focus(), 250);
 }
 function closeSaveModal() { document.getElementById('saveModal').classList.remove('active'); }
 
@@ -1044,11 +1143,13 @@ async function saveIdentity() {
   const btn = document.getElementById('saveModalBtn');
   btn.disabled = true; btn.textContent = 'Saving...';
   try {
+    const first = document.getElementById('firstName').textContent;
+    const last = document.getElementById('lastName').textContent;
     await addDoc(collection(db, 'identities'), {
       userId: currentUser.uid,
-      firstName: document.getElementById('firstName').textContent,
-      lastName: document.getElementById('lastName').textContent,
-      fullName: document.getElementById('firstName').textContent + ' ' + document.getElementById('lastName').textContent,
+      firstName: first,
+      lastName: last,
+      fullName: `${first} ${last}`,
       password: document.getElementById('password').textContent,
       email: email || '',
       inviteCode: document.getElementById('inviteCode').textContent,
@@ -1074,7 +1175,6 @@ function editEmail(id) {
   document.getElementById('emailInput').value = identity.email || '';
   document.getElementById('saveModal').classList.add('active');
   document.getElementById('saveModalBtn').onclick = () => updateEmail(id);
-  setTimeout(() => document.getElementById('emailInput').focus(), 250);
 }
 
 async function updateEmail(id) {
@@ -1128,7 +1228,6 @@ function showSkeleton() {
 }
 
 // ============ RENDER ============
-let renderCache = '';
 function renderSaved() {
   const list = document.getElementById('identityList');
   const search = document.getElementById('searchInput').value.toLowerCase().trim();
@@ -1235,7 +1334,7 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 1500);
 }
 
-// ============ MODAL EVENTS ============
+// ============ MODAL / KEYBOARD ============
 document.getElementById('saveModal').addEventListener('click', e => { if (e.target.id === 'saveModal') closeSaveModal(); });
 document.getElementById('exportModal').addEventListener('click', e => { if (e.target.id === 'exportModal') closeExportModal(); });
 document.addEventListener('keydown', e => {
