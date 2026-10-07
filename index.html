@@ -54,7 +54,6 @@
   @keyframes shine { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
   .header p { font-size: 12px; color: var(--text-3); font-weight: 500; letter-spacing: 3px; text-transform: uppercase; }
 
-  /* AUTH BADGE */
   .auth-badge {
     display: flex; align-items: center; justify-content: space-between;
     background: linear-gradient(180deg, var(--black-2), var(--black-1));
@@ -68,8 +67,9 @@
     background: var(--gold-grad);
     display: flex; align-items: center; justify-content: center;
     font-size: 14px; font-weight: 700; color: #000;
-    flex-shrink: 0;
+    flex-shrink: 0; overflow: hidden;
   }
+  .auth-avatar img { width: 100%; height: 100%; object-fit: cover; }
   .auth-info { min-width: 0; flex: 1; text-align: left; }
   .auth-label { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); opacity: 0.7; font-weight: 700; margin-bottom: 2px; }
   .auth-email { font-size: 12px; color: var(--text-2); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -87,7 +87,7 @@
     background: var(--black);
     background-image: radial-gradient(ellipse 600px 400px at 50% 0%, rgba(212,175,55,0.1), transparent 60%);
     display: flex; align-items: center; justify-content: center;
-    padding: 24px;
+    padding: 24px; overflow-y: auto;
   }
   .auth-card {
     width: 100%; max-width: 400px;
@@ -110,6 +110,37 @@
     animation: shine 6s ease-in-out infinite;
   }
   .auth-sub { text-align: center; font-size: 12px; color: var(--text-3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+
+  /* GOOGLE BUTTON */
+  .google-btn {
+    width: 100%; padding: 14px 16px;
+    background: #ffffff;
+    border: none; border-radius: 13px;
+    color: #1f1f1f; font-family: inherit; font-size: 14px;
+    font-weight: 600; letter-spacing: -0.2px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 6px 20px -6px rgba(255,255,255,0.2);
+    margin-bottom: 18px;
+  }
+  .google-btn:hover:not(:disabled) { background: #f5f5f5; transform: translateY(-1px); box-shadow: 0 10px 28px -6px rgba(255,255,255,0.3); }
+  .google-btn:active:not(:disabled) { transform: scale(0.98); }
+  .google-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .google-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  .auth-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 18px;
+  }
+  .auth-divider::before, .auth-divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+  }
+  .auth-divider span {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-3); font-weight: 700;
+  }
+
   .auth-tabs { display: flex; gap: 6px; background: var(--black); padding: 4px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--line); }
   .auth-tab {
     flex: 1; padding: 10px; background: transparent; border: none;
@@ -151,6 +182,10 @@
     border-radius: 50%; animation: spin 0.7s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
+  .auth-foot {
+    text-align: center; margin-top: 18px; font-size: 11px;
+    color: var(--text-3); letter-spacing: 0.3px;
+  }
 
   .section-label {
     font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold);
@@ -236,7 +271,7 @@
   .btn:disabled { opacity: 0.5; cursor: not-allowed; }
   .saved-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding: 0 4px; }
   .saved-header-left { display: flex; align-items: center; gap: 10px; }
-  .saved-header h2 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+  .saved-header h2 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 10px; }
   .count-badge {
     background: rgba(212,175,55,0.1); border: 1px solid var(--line-strong); color: var(--gold);
     padding: 2px 9px; border-radius: 100px; font-size: 10px; font-weight: 700;
@@ -321,13 +356,6 @@
   .empty-icon svg { width: 26px; height: 26px; stroke-width: 1.7; }
   .empty-state p { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--gold); margin-bottom: 6px; }
   .empty-state span { font-size: 12px; color: var(--text-3); }
-  .loading-state { text-align: center; padding: 56px 20px; }
-  .spinner-gold {
-    width: 32px; height: 32px; margin: 0 auto 14px;
-    border: 3px solid rgba(212,175,55,0.15); border-top-color: var(--gold);
-    border-radius: 50%; animation: spin 0.8s linear infinite;
-  }
-  .loading-state p { font-size: 12px; color: var(--text-3); letter-spacing: 2px; text-transform: uppercase; }
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     display: none; align-items: flex-end; justify-content: center; z-index: 999; animation: fadeIn 0.25s;
@@ -342,9 +370,7 @@
     position: relative;
   }
   .modal::before { content: ''; position: absolute; top: 0; left: 30%; right: 30%; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0.6; }
-  @media (min-width: 500px) {
-    .modal { border-radius: 22px; padding: 26px 24px; }
-  }
+  @media (min-width: 500px) { .modal { border-radius: 22px; padding: 26px 24px; } }
   @keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
   .modal-handle { width: 36px; height: 4px; border-radius: 2px; background: var(--line-strong); margin: 0 auto 18px; }
   @media (min-width: 500px) { .modal-handle { display: none; } }
@@ -395,6 +421,23 @@
     <div class="auth-title">KeyForge</div>
     <div class="auth-sub">Sign in to forge</div>
 
+    <!-- GOOGLE BUTTON -->
+    <button class="google-btn" id="googleBtn" onclick="handleGoogleSignIn()">
+      <svg viewBox="0 0 48 48">
+        <path fill="#FFC107" d="M43.611,20.083H42V20H24c0,0,0,0,0,0v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+        <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+        <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+        <path fill="#1976D2" d="M43.611,20.083H42V20H24c0,0,0,0,0,0v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+      </svg>
+      Continue with Google
+    </button>
+
+    <!-- DIVIDER -->
+    <div class="auth-divider">
+      <span>or</span>
+    </div>
+
+    <!-- AUTH TABS -->
     <div class="auth-tabs">
       <button class="auth-tab active" id="tabSignIn" onclick="switchAuthTab('signin')">Sign In</button>
       <button class="auth-tab" id="tabSignUp" onclick="switchAuthTab('signup')">Sign Up</button>
@@ -411,24 +454,22 @@
     <button class="auth-submit" id="authSubmit" onclick="handleAuth()">
       <span id="authBtnText">Sign In</span>
     </button>
+
+    <div class="auth-foot">Your data is stored securely in the cloud</div>
   </div>
 </div>
 
 <!-- ==================== APP ==================== -->
 <div class="app" id="mainApp" style="display:none;">
-
   <div class="header">
     <div class="crown-badge">
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
       Premium Forge
     </div>
     <h1>KeyForge</h1>
     <p>Identity · Crafted</p>
   </div>
 
-  <!-- AUTH BADGE -->
   <div class="auth-badge">
     <div class="auth-user">
       <div class="auth-avatar" id="userAvatar">?</div>
@@ -445,9 +486,7 @@
   <div class="card">
     <div class="field">
       <div class="field-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </div>
       <div class="field-content">
         <div class="field-title">First Name</div>
@@ -457,12 +496,9 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
       </button>
     </div>
-
     <div class="field">
       <div class="field-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       </div>
       <div class="field-content">
         <div class="field-title">Last Name</div>
@@ -472,7 +508,6 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
       </button>
     </div>
-
     <div class="field">
       <div class="field-icon gold-fill">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -485,7 +520,6 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
       </button>
     </div>
-
     <div class="field">
       <div class="field-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
@@ -498,7 +532,6 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
       </button>
     </div>
-
     <div class="slider-row">
       <div class="slider-head">
         <span class="label">Password Length</span>
@@ -506,7 +539,6 @@
       </div>
       <input type="range" id="pwLength" min="6" max="32" value="12" oninput="updateSlider(this.value)">
     </div>
-
     <div class="btn-row">
       <button class="btn btn-gold" onclick="generateAll()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
@@ -522,7 +554,7 @@
   <div class="saved-header">
     <div class="saved-header-left">
       <div>
-        <h2 style="display:flex;align-items:center;gap:10px;">The Forge <span class="count-badge" id="savedCount">0</span></h2>
+        <h2>The Forge <span class="count-badge" id="savedCount">0</span></h2>
         <div class="sync-status">
           <span class="sync-dot" id="syncDot"></span>
           <span id="syncText">Synced</span>
@@ -611,12 +643,11 @@
 <!-- ==================== FIREBASE SDK ==================== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, deleteDoc, doc, query, where, onSnapshot, updateDoc, getDocs, writeBatch }
+import { getFirestore, collection, addDoc, deleteDoc, doc, query, where, onSnapshot, updateDoc, writeBatch }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ============ FIREBASE CONFIG ============
 const firebaseConfig = {
   apiKey: "AIzaSyCYE6X1DsWwD6e-k0wxCRF8jg359__loKA",
   authDomain: "keyforge-57bc9.firebaseapp.com",
@@ -630,18 +661,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
 
-// ============ STATE ============
 let currentUser = null;
 let savedIdentities = [];
 let currentGender = 'male';
 let unsubscribeSnapshot = null;
 let authMode = 'signin';
 
-// Make available globally for onclick handlers
+// Globals
 window.switchAuthTab = switchAuthTab;
 window.handleAuth = handleAuth;
 window.handleLogout = handleLogout;
+window.handleGoogleSignIn = handleGoogleSignIn;
 window.generateAll = generateAll;
 window.updateSlider = updateSlider;
 window.copyField = copyField;
@@ -658,7 +690,7 @@ window.closeExportModal = closeExportModal;
 window.exportAs = exportAs;
 window.renderSaved = renderSaved;
 
-// ============ NAME DATA ============
+// NAME DATA
 const names = {
   western: {
     male: { first: ["James","Oliver","Liam","Noah","Ethan","Lucas","Mason","Logan","Henry","Jack","Daniel","Michael","William"], last: ["Smith","Johnson","Williams","Brown","Jones","Miller","Davis","Wilson","Anderson","Taylor"] },
@@ -684,12 +716,13 @@ const names = {
 
 const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 
-// ============ AUTH UI ============
+// AUTH UI
 function switchAuthTab(mode) {
   authMode = mode;
   document.getElementById('tabSignIn').classList.toggle('active', mode === 'signin');
   document.getElementById('tabSignUp').classList.toggle('active', mode === 'signup');
   document.getElementById('authBtnText').textContent = mode === 'signin' ? 'Sign In' : 'Create Account';
+  document.getElementById('authPassword').setAttribute('autocomplete', mode === 'signin' ? 'current-password' : 'new-password');
   document.getElementById('authError').classList.remove('show');
 }
 
@@ -713,11 +746,8 @@ async function handleAuth() {
   document.getElementById('authError').classList.remove('show');
 
   try {
-    if (authMode === 'signup') {
-      await createUserWithEmailAndPassword(auth, email, password);
-    } else {
-      await signInWithEmailAndPassword(auth, email, password);
-    }
+    if (authMode === 'signup') await createUserWithEmailAndPassword(auth, email, password);
+    else await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
     let msg = 'Authentication failed';
     if (err.code === 'auth/email-already-in-use') msg = 'Email already registered';
@@ -733,12 +763,38 @@ async function handleAuth() {
   }
 }
 
-async function handleLogout() {
-  if (!confirm('Sign out of KeyForge?')) return;
-  await signOut(auth);
+async function handleGoogleSignIn() {
+  const btn = document.getElementById('googleBtn');
+  const originalHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<div class="auth-spinner" style="border-color:#1f1f1f;border-top-color:transparent;"></div> Signing in...';
+  document.getElementById('authError').classList.remove('show');
+
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    // onAuthStateChanged will handle the rest
+    console.log('Google sign in success:', result.user.email);
+  } catch (err) {
+    console.error('Google sign in error:', err);
+    let msg = 'Google sign-in failed';
+    if (err.code === 'auth/popup-closed-by-user') msg = 'Sign-in cancelled';
+    else if (err.code === 'auth/popup-blocked') msg = 'Popup blocked — allow popups and try again';
+    else if (err.code === 'auth/account-exists-with-different-credential') msg = 'Email already registered with password';
+    else if (err.code === 'auth/unauthorized-domain') msg = 'Domain not authorized in Firebase Console';
+    else msg = err.message;
+    showAuthError(msg);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalHTML;
+  }
 }
 
-// ============ AUTH STATE ============
+async function handleLogout() {
+  if (!confirm('Sign out of KeyForge?')) return;
+  try { await signOut(auth); } catch (err) { console.error(err); }
+}
+
+// AUTH STATE
 onAuthStateChanged(auth, (user) => {
   currentUser = user;
   const authScreen = document.getElementById('authScreen');
@@ -747,13 +803,24 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     authScreen.style.display = 'none';
     mainApp.style.display = 'block';
-    document.getElementById('userEmail').textContent = user.email;
-    document.getElementById('userAvatar').textContent = user.email.charAt(0).toUpperCase();
-    // Reset auth form
+
+    // Show email or name
+    const displayName = user.displayName || user.email;
+    document.getElementById('userEmail').textContent = displayName;
+
+    // Avatar
+    const avatarEl = document.getElementById('userAvatar');
+    if (user.photoURL) {
+      avatarEl.innerHTML = `<img src="${user.photoURL}" alt="" referrerpolicy="no-referrer">`;
+    } else {
+      avatarEl.textContent = (user.email || '?').charAt(0).toUpperCase();
+    }
+
+    // Reset auth
     document.getElementById('authPassword').value = '';
     document.getElementById('authSubmit').disabled = false;
     document.getElementById('authBtnText').textContent = authMode === 'signin' ? 'Sign In' : 'Create Account';
-    // Load data & generate
+
     subscribeToIdentities();
     generateAll();
     updateSlider(12);
@@ -765,7 +832,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// ============ FIRESTORE SYNC ============
+// FIRESTORE
 function setSyncStatus(status) {
   const dot = document.getElementById('syncDot');
   const text = document.getElementById('syncText');
@@ -776,7 +843,6 @@ function setSyncStatus(status) {
 function subscribeToIdentities() {
   if (!currentUser) return;
   if (unsubscribeSnapshot) unsubscribeSnapshot();
-
   setSyncStatus('syncing');
   const q = query(collection(db, 'identities'), where('userId', '==', currentUser.uid));
 
@@ -795,7 +861,7 @@ function subscribeToIdentities() {
   );
 }
 
-// ============ GENERATE ============
+// GENERATE
 function updateSlider(val) {
   document.getElementById('pwLengthValue').textContent = val;
   const pct = ((val - 6) / (32 - 6)) * 100;
@@ -845,7 +911,7 @@ function generateAll() {
   });
 }
 
-// ============ COPY ============
+// COPY
 function copyText(text, btn) {
   const doCopy = () => {
     if (btn) {
@@ -874,10 +940,9 @@ function copyField(id, btn) {
   if (text === '— — —') { showToast('Generate first'); return; }
   copyText(text, btn);
 }
-
 function copyMini(text, btn) { copyText(text, btn); }
 
-// ============ SAVE ============
+// SAVE
 function openSaveModal() {
   const first = document.getElementById('firstName').textContent;
   if (first === '— — —') { showToast('Generate first'); return; }
@@ -888,10 +953,7 @@ function openSaveModal() {
   document.getElementById('saveModalBtn').onclick = saveIdentity;
   setTimeout(() => document.getElementById('emailInput').focus(), 400);
 }
-
-function closeSaveModal() {
-  document.getElementById('saveModal').classList.remove('active');
-}
+function closeSaveModal() { document.getElementById('saveModal').classList.remove('active'); }
 
 async function saveIdentity() {
   if (!currentUser) return;
@@ -902,41 +964,28 @@ async function saveIdentity() {
   const inviteCode = document.getElementById('inviteCode').textContent;
 
   const btn = document.getElementById('saveModalBtn');
-  btn.disabled = true;
-  btn.textContent = 'Saving...';
+  btn.disabled = true; btn.textContent = 'Saving...';
 
   try {
     await addDoc(collection(db, 'identities'), {
       userId: currentUser.uid,
-      firstName: first,
-      lastName: last,
-      fullName: `${first} ${last}`,
-      password: password,
-      email: email || '',
-      inviteCode: inviteCode,
-      gender: currentGender,
-      savedAt: new Date().toISOString()
+      firstName: first, lastName: last, fullName: `${first} ${last}`,
+      password, email: email || '', inviteCode,
+      gender: currentGender, savedAt: new Date().toISOString()
     });
     closeSaveModal();
     showToast('Saved to forge');
   } catch (err) {
-    console.error(err);
-    showToast('Save failed');
+    console.error(err); showToast('Save failed');
   } finally {
-    btn.disabled = false;
-    btn.textContent = 'Save';
+    btn.disabled = false; btn.textContent = 'Save';
   }
 }
 
-// ============ DELETE / EDIT ============
 async function deleteIdentity(id) {
   if (!confirm('Delete this identity?')) return;
-  try {
-    await deleteDoc(doc(db, 'identities', id));
-    showToast('Deleted');
-  } catch (err) {
-    showToast('Delete failed');
-  }
+  try { await deleteDoc(doc(db, 'identities', id)); showToast('Deleted'); }
+  catch (err) { showToast('Delete failed'); }
 }
 
 function editEmail(id) {
@@ -952,18 +1001,12 @@ function editEmail(id) {
 async function updateEmail(id) {
   const email = document.getElementById('emailInput').value.trim();
   const btn = document.getElementById('saveModalBtn');
-  btn.disabled = true;
-  btn.textContent = 'Updating...';
+  btn.disabled = true; btn.textContent = 'Updating...';
   try {
     await updateDoc(doc(db, 'identities', id), { email });
-    closeSaveModal();
-    showToast('Updated');
-  } catch (err) {
-    showToast('Update failed');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Save';
-  }
+    closeSaveModal(); showToast('Updated');
+  } catch (err) { showToast('Update failed'); }
+  finally { btn.disabled = false; btn.textContent = 'Save'; }
 }
 
 async function clearAll() {
@@ -975,29 +1018,24 @@ async function clearAll() {
     savedIdentities.forEach(i => batch.delete(doc(db, 'identities', i.id)));
     await batch.commit();
     showToast('Forge cleared');
-  } catch (err) {
-    showToast('Clear failed');
-    setSyncStatus('error');
-  }
+  } catch (err) { showToast('Clear failed'); setSyncStatus('error'); }
 }
 
-// ============ HELPERS ============
+// HELPERS
 function formatDate(iso) {
   const d = new Date(iso);
   const day = String(d.getDate()).padStart(2, '0');
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return `${day} ${months[d.getMonth()]} ${d.getFullYear()}, ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
 }
-
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-
 function escapeAttr(s) {
   return String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
 }
 
-// ============ RENDER ============
+// RENDER
 function renderSaved() {
   const list = document.getElementById('identityList');
   const search = document.getElementById('searchInput').value.toLowerCase().trim();
@@ -1010,7 +1048,6 @@ function renderSaved() {
       i.password.toLowerCase().includes(search)
     );
   }
-
   document.getElementById('savedCount').textContent = savedIdentities.length;
 
   if (!filtered.length) {
@@ -1077,16 +1114,13 @@ function renderSaved() {
   }).join('');
 }
 
-// ============ EXPORT ============
+// EXPORT
 function openExportModal() {
   if (!savedIdentities.length) { showToast('Nothing to export'); return; }
   document.getElementById('exportCount').textContent = savedIdentities.length;
   document.getElementById('exportModal').classList.add('active');
 }
-
-function closeExportModal() {
-  document.getElementById('exportModal').classList.remove('active');
-}
+function closeExportModal() { document.getElementById('exportModal').classList.remove('active'); }
 
 function exportAs(format) {
   const data = savedIdentities;
@@ -1136,7 +1170,6 @@ tr:hover td{background:#141414}</style></head><body><div class="wrap">
   showToast(`Exported as ${format.toUpperCase()}`);
 }
 
-// ============ TOAST ============
 let toastTimer;
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -1146,21 +1179,12 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
 }
 
-// ============ MODAL EVENTS ============
-document.getElementById('saveModal').addEventListener('click', e => {
-  if (e.target.id === 'saveModal') closeSaveModal();
-});
-document.getElementById('exportModal').addEventListener('click', e => {
-  if (e.target.id === 'exportModal') closeExportModal();
-});
+document.getElementById('saveModal').addEventListener('click', e => { if (e.target.id === 'saveModal') closeSaveModal(); });
+document.getElementById('exportModal').addEventListener('click', e => { if (e.target.id === 'exportModal') closeExportModal(); });
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeSaveModal(); closeExportModal(); }
-  if (e.key === 'Enter' && document.getElementById('authScreen').style.display !== 'none') {
-    handleAuth();
-  }
-  if (e.key === 'Enter' && document.getElementById('saveModal').classList.contains('active')) {
-    document.getElementById('saveModalBtn').click();
-  }
+  if (e.key === 'Enter' && document.getElementById('authScreen').style.display !== 'none') handleAuth();
+  if (e.key === 'Enter' && document.getElementById('saveModal').classList.contains('active')) document.getElementById('saveModalBtn').click();
 });
 </script>
 </body>
