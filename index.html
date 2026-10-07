@@ -231,32 +231,92 @@
   .copy-btn:active { transform: scale(0.9); }
   .copy-btn.copied { background: var(--green); border-color: var(--green); color: #fff; }
 
-  /* ========== SLIDER ========== */
-  .slider-row { padding: 16px 14px 14px; position: relative; }
-  .slider-row::after { content: ''; position: absolute; left: 60px; right: 14px; bottom: 0; height: 1px; background: var(--line); }
-  .slider-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-  .slider-head .label { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); }
-  .slider-head .value {
-    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
+  /* ========== SLIDER (FIXED) ========== */
+  .slider-row {
+    padding: 16px 14px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .slider-row::after {
+    content: '';
+    position: absolute;
+    left: 60px; right: 14px; bottom: 0;
+    height: 1px;
+    background: var(--line);
+  }
+  .slider-row .label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-3);
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .slider-row .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
     color: var(--text);
-    background: var(--bg-4); padding: 3px 12px;
+    background: var(--bg-4);
+    padding: 3px 10px;
     border-radius: 100px;
-    min-width: 44px; text-align: center;
+    min-width: 34px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .slider-wrap {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 0;
   }
   input[type="range"] {
-    -webkit-appearance: none; appearance: none;
-    width: 100%; height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 20px;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+  }
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 3px;
+    border-radius: 3px;
     background: linear-gradient(90deg, var(--white) 0%, var(--white) var(--p, 37.5%), var(--bg-4) var(--p, 37.5%), var(--bg-4) 100%);
-    border-radius: 4px; outline: none; cursor: pointer;
+  }
+  input[type="range"]::-moz-range-track {
+    height: 3px;
+    border-radius: 3px;
+    background: var(--bg-4);
+  }
+  input[type="range"]::-moz-range-progress {
+    height: 3px;
+    border-radius: 3px;
+    background: var(--white);
   }
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 20px; height: 20px;
+    width: 16px; height: 16px;
     border-radius: 50%;
     background: var(--white);
     cursor: pointer;
-    border: 2px solid #000;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    border: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    margin-top: -6.5px;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--white);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   }
   input[type="range"]::-webkit-slider-thumb:active { transform: scale(1.15); }
 
@@ -708,13 +768,16 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
       </button>
     </div>
+
+    <!-- SLIDER (FIXED) -->
     <div class="slider-row">
-      <div class="slider-head">
-        <span class="label">Password Length</span>
-        <span class="value" id="pwLengthValue">12</span>
+      <span class="label">Length</span>
+      <div class="slider-wrap">
+        <input type="range" id="pwLength" min="6" max="32" value="12" oninput="updateSlider(this.value)">
       </div>
-      <input type="range" id="pwLength" min="6" max="32" value="12" oninput="updateSlider(this.value)">
+      <span class="value" id="pwLengthValue">12</span>
     </div>
+
     <div class="btn-row">
       <button class="btn btn-white" onclick="generateAll()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
@@ -1128,10 +1191,7 @@ function openSaveModal() {
   if (first === '— — —') return showToast('Generate first');
   const last = document.getElementById('lastName').textContent;
   document.getElementById('saveModalName').textContent = `${first} ${last}`;
-
-  // Auto-fill preset email
   document.getElementById('emailInput').value = PRESET_EMAIL;
-
   document.getElementById('saveModal').classList.add('active');
   document.getElementById('saveModalBtn').onclick = saveIdentity;
 }
